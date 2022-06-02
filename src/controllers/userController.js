@@ -9,9 +9,7 @@ const createUser = async (req, res, next) => {
       image,
     } = req.body;
 
-    const token = await userService(displayName, email, password, image);
-
-    console.log('teste token: ', token);
+    const token = await userService.createUser(displayName, email, password, image);
 
     return res.status(201).json({ token });
   } catch (error) {
@@ -20,4 +18,18 @@ const createUser = async (req, res, next) => {
   }
 };
 
-module.exports = createUser;
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await userService.getUsers();
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log('getUsers: ', error.message);
+    next(error);
+  }
+};
+
+module.exports = {
+  createUser,
+  getUsers,
+};
