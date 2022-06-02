@@ -1,7 +1,10 @@
 const loginValidation = require('./middlewares/loginMiddleware');
 const loginController = require('./controllers/loginController');
-const userController = require('./controllers/userController');
+const { createUser, getUsers, getUserById } = require('./controllers/userController');
+const { createCategory, getCategories } = require('./controllers/categoryController');
+const { nameValidation } = require('./middlewares/categoryMiddleware');
 const errorMiddlewares = require('./middlewares/errorMiddleware');
+const authToken = require('./middlewares/authToken');
 const {
   displayNameValidation,
   emailValidation,
@@ -15,11 +18,17 @@ const app = require('./api');
 const port = process.env.API_PORT || 3000;
 
 app.post('/login', loginValidation, loginController);
+
 app.post('/user',
   displayNameValidation,
   emailValidation,
   passwordValidation,
-  userController);
+  createUser);
+app.get('/user', authToken, getUsers);
+app.get('/user/:id', authToken, getUserById);
+
+app.post('/categories', authToken, nameValidation, createCategory);
+app.get('/categories', authToken, getCategories);
 
 app.use(errorMiddlewares);
 
