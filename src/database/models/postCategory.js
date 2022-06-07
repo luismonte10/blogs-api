@@ -3,6 +3,9 @@ const PostCategory = (sequelize, DataTypes) => {
     postId: { type: DataTypes.INTEGER, foreignKey: true },
     categoryId: { type: DataTypes.INTEGER, foreignKey: true },
   },
+  {
+    timestamps: false,
+  }
   );
 
   PostCategory.associate = (models) => {
