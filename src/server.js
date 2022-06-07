@@ -3,6 +3,7 @@ const loginController = require('./controllers/loginController');
 const { createUser, getUsers, getUserById } = require('./controllers/userController');
 const { createCategory, getCategories } = require('./controllers/categoryController');
 const { nameValidation } = require('./middlewares/categoryMiddleware');
+const { getBlogPost } = require('./controllers/postController');
 const errorMiddlewares = require('./middlewares/errorMiddleware');
 const authToken = require('./middlewares/authToken');
 const {
@@ -29,6 +30,9 @@ app.get('/user/:id', authToken, getUserById);
 
 app.post('/categories', authToken, nameValidation, createCategory);
 app.get('/categories', authToken, getCategories);
+
+// app.post('/post', createPost);
+app.get('/post', authToken, getBlogPost);
 
 app.use(errorMiddlewares);
 
